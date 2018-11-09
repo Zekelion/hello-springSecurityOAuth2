@@ -16,6 +16,10 @@ Response
 active
 ```
 
+**Denpendencies**
+
+redis
+
 **Run**
 
 ```
@@ -23,7 +27,7 @@ active
 gradle dev bootRun
 ```
 
-### Grant Type: Authorization Code
+#### Grant Type: Authorization Code
 
 1. Request for auth code
    
@@ -70,7 +74,7 @@ gradle dev bootRun
    active
    ```
 
-### Grant Type: Implicit
+#### Grant Type: Implicit
 
 1. Request for auth
 
@@ -100,7 +104,7 @@ gradle dev bootRun
    active
    ```
 
-### Grant Type: Password
+#### Grant Type: Password
 
 1. Request for access token by post form-data to the token endpoint
 
@@ -134,7 +138,7 @@ gradle dev bootRun
    active
    ```
 
-### Grant Type: Client Credentials
+#### Grant Type: Client Credentials
 
 1. Request for access token by post form-data to the token endpoint
 
@@ -167,3 +171,14 @@ gradle dev bootRun
   
    active
    ```
+
+### Redis Token Store
+
+| KEY | TYPE | DATA |
+| --- | --- | --- |
+| client_id_to_access:clientapp | SET | client info |
+| uname_to_access:clientapp:dev | SET | user info (password grant) |
+| access_to_refresh:8dc52a27-0479-4495-85a2-e9679a9c4d8 | String | refresh token grant info |
+| access:8dc52a27-0479-4495-85a2-e9679a9c4d80 | String | access token grant info |
+| auth_to_access:9db18f35cd412a1ec2403a451107ce0a | String | auth access info |
+| auth:8dc52a27-0479-4495-85a2-e9679a9c4d80 | String | auth info |

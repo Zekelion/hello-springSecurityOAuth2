@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * OAuth2AuthServer
@@ -18,9 +19,10 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
-
   @Autowired
   private AuthenticationManager authenticationManager;
+  @Autowired
+  private TokenStore tokenStore;
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -28,13 +30,13 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
     clients.inMemory().withClient("clientapp").secret(passwordEncoder.encode("123"))
         .redirectUris("http://localhost:9000/callback")
         .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password", "client_credentials")
-        .accessTokenValiditySeconds(120).scopes("read", "admin");
+        .accessTokenValiditySeconds(300).scopes("read", "admin");
 
     // client password  client credentials  ( require authentication manager ), directly retrieve access token from token endpoint via
   }
 
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-    endpoints.authenticationManager(authenticationManager);
+    endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore);
   }
 }
