@@ -1,15 +1,6 @@
 spring:
   profiles:
     active: development
-  data:
-    redis:
-      host: localhost
-      port: 6279
-    mongodb:
-      authorization:
-        host: localhost
-        port: 27017
-        database: authorization
   security:
     user:
       name: dev
