@@ -30,7 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private String password;
   @Autowired
   private CustomUserDetailService customUserDetailService;
-
   @Autowired
   private RedisConnectionFactory redisConnectionFactory;
   @Autowired

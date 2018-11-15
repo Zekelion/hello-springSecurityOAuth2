@@ -1,5 +1,7 @@
 package com.github.eriksen.auth_server.config;
 
+import com.github.eriksen.auth_server.service.security.CustomUserDetailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +25,8 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
   private AuthenticationManager authenticationManager;
   @Autowired
   private TokenStore tokenStore;
+  @Autowired
+  private CustomUserDetailService customUserDetailService;
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -32,11 +36,13 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
         .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password", "client_credentials")
         .accessTokenValiditySeconds(300).scopes("read", "admin");
 
-    // client password  client credentials  ( require authentication manager ), directly retrieve access token from token endpoint via
+    // client password client credentials ( require authentication manager ),
+    // directly retrieve access token from token endpoint via
   }
 
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-    endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore);
+    endpoints.authenticationManager(authenticationManager).userDetailsService(customUserDetailService)
+        .tokenStore(tokenStore);
   }
 }
