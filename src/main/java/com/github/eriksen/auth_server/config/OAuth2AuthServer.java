@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
   @Autowired
   private AuthenticationManager authenticationManager;
   @Autowired
@@ -27,7 +27,7 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     // authorization code + implicit with refresh_token
-    clients.inMemory().withClient("clientapp").secret(passwordEncoder.encode("123"))
+    clients.inMemory().withClient("clientapp").secret(bCryptPasswordEncoder.encode("123"))
         .redirectUris("http://localhost:9000/callback")
         .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password", "client_credentials")
         .accessTokenValiditySeconds(300).scopes("read", "admin");

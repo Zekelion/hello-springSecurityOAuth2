@@ -1,4 +1,6 @@
-package com.github.eriksen.auth_server.domain;
+package com.github.eriksen.auth_server.model;
+
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,7 +16,15 @@ import lombok.Data;
 public class User {
   @Id
   private String id;
-  @Indexed
+  
+  @Indexed(unique = true)
   private String username;
+
   private String password;
+
+  private Boolean archived;
+
+  private Date createdTime = new Date();
+
+  private Date updatedTime = new Date();
 }
