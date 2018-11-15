@@ -172,13 +172,24 @@ gradle dev bootRun
    active
    ```
 
-### Redis Token Store
+### Refresh Token
 
-| KEY | TYPE | DATA |
-| --- | --- | --- |
-| client_id_to_access:clientapp | SET | client info |
-| uname_to_access:clientapp:dev | SET | user info (password grant) |
-| access_to_refresh:8dc52a27-0479-4495-85a2-e9679a9c4d8 | String | refresh token grant info |
-| access:8dc52a27-0479-4495-85a2-e9679a9c4d80 | String | access token grant info |
-| auth_to_access:9db18f35cd412a1ec2403a451107ce0a | String | auth access info |
-| auth:8dc52a27-0479-4495-85a2-e9679a9c4d80 | String | auth info |
+1. Request for a new access token by post form-data to the token endpoint
+
+   ```
+   POST http://localhost:30000/oauth/token application/x-www-form-urlencoded
+      
+   grant_type: refresh_token
+   scope: read
+   refresh_token: 51d16ec3-05be-4dd9-8844-17fd21ddd4b2
+
+   Response
+
+   {
+      "access_token": "503f48b4-4b4d-444b-b4d8-38648432d015",
+      "token_type": "bearer",
+      "refresh_token": "51d16ec3-05be-4dd9-8844-17fd21ddd4b2",
+      "expires_in": 299,
+      "scope": "read"
+   }
+   ```
